@@ -15,11 +15,12 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
 //Global middleware
-app.use((req,res,next)=>{
-  res.locals.session =req.session;
-  res.locals.user=req.user; 
+app.use((req, res, next) => {
+  res.locals.session = req.session;
+  res.locals.user = req.user; 
   next();
-})  
+});
+
 //database connection
 
   mongoose.connect("mongodb://127.0.0.1:27017/pizza");
@@ -32,6 +33,13 @@ app.use((req,res,next)=>{
     console.log("Connection failed:", err);
   });
 
+  //event Emitter
+  // const { EventEmitter } = require('events');
+
+  // const eventEmitter = new EventEmitter();
+
+  // // const eventEmitter = new Emitter();
+  // app.set("eventEmitter",eventEmitter);
 
 // session config
 app.use(session({
@@ -44,7 +52,8 @@ app.use(session({
 
 
 //passport config
-const passportInit=require("./app/config/passport")
+const passportInit=require("./app/config/passport");
+const { Socket } = require('socket.io');
 passportInit(passport)
 app.use(passport.initialize())
 app.use(passport.session())
@@ -64,6 +73,19 @@ require("./routes/web")(app);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, ()=>{
+const server = app.listen(PORT, ()=>{
     console.log(`listening on the port ${PORT}`)
 })
+
+// //socket.io
+
+const io  =require("socket.io")(server);
+io.on("connection", (socket)=>{
+    // join 
+//   socket.on("join",(orderId)=>{
+//     socket.join(orderId);
+//   })
+})
+// eventEmitter.on("orderUpdated",(data)=>{
+//   io.to(`order_${data.id}`).emit("orderUpdated",data)
+// })

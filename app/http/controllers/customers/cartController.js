@@ -1,9 +1,7 @@
 function cartController(){
     return {
         index(req,res){
-            console.log("hello from cart ")
-            console.log(req.session);
-            res.render("customers/cart",{ session: req.session });
+            res.render("customers/cart",{ session: req.session ,user: req.user});
         },
         update(req,res){
             //cart stucture
