@@ -39,8 +39,21 @@ function orderController (){
             // console.log(order);
 
             order.save().then(result =>{
-                req.flash("success", "Order Placed Sucessfully")
-                delete req.session.cart
+                Order.populate(result,{path: "customerId"})
+                .then((placedOrder) => {
+                    req.flash("success", "Order Placed Sucessfully")
+                    delete req.session.cart
+                    //Emit
+                    const eventEmitter = req.app.get("eventEmitter");
+                    eventEmitter.emit("orderPlaced", result);
+                })
+                .catch((err) => {
+                    // Handle any errors
+                    console.error(err);
+                    res.status(500).send("Internal Server Error");
+                });
+                
+
                 return res.redirect("/customer/orders")
             }).catch(err=>{
                 req.flash("error", "Something went Wrong")

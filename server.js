@@ -9,6 +9,9 @@ const session =require("express-session");
 const flash =require('express-flash');
 const mongoStore =require('connect-mongo');
 const passport = require("passport");
+const EventEmitter = require('events');
+
+
 
 app.use(express.static("public"));
 app.use(express.urlencoded({extended: false}));
@@ -34,12 +37,8 @@ app.use((req, res, next) => {
   });
 
   //event Emitter
-  // const { EventEmitter } = require('events');
-
-  // const eventEmitter = new EventEmitter();
-
-  // // const eventEmitter = new Emitter();
-  // app.set("eventEmitter",eventEmitter);
+  const eventEmitter = new EventEmitter();
+  app.set("eventEmitter",eventEmitter);
 
 // session config
 app.use(session({
@@ -82,10 +81,14 @@ const server = app.listen(PORT, ()=>{
 const io  =require("socket.io")(server);
 io.on("connection", (socket)=>{
     // join 
-//   socket.on("join",(orderId)=>{
-//     socket.join(orderId);
-//   })
+  socket.on("join",(orderId)=>{
+    socket.join(orderId);
+  })
 })
-// eventEmitter.on("orderUpdated",(data)=>{
-//   io.to(`order_${data.id}`).emit("orderUpdated",data)
-// })
+eventEmitter.on("orderUpdated",(data)=>{
+  io.to(`order_${data.id}`).emit("orderUpdated",data)
+})
+
+eventEmitter.on("orderPlaced",(data)=>{
+  io.to('adminRoom').emit("orderPlaced",data)
+});
