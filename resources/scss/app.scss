@@ -183,3 +183,28 @@ section.status {
     font-size: 14px;
     margin-top: 1px;
 }
+
+@media(max-width: 1060px){
+    .container{
+        max-width: 90%;
+    }
+    table{
+        display: block;
+        overflow-x: auto ;
+        white-space: nowrap;
+    }
+}
+
+@media(max-width : 768px){ 
+    .status-box ul li span:before{
+        font-size: 34px;
+    }
+}
+.noty_bar {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translate(0, 0) translateZ(0) scale(1.0, 1.0);
+    transform: translate(0, 0) scale(1.0, 1.0);
+    -webkit-font-smoothing: subpixel-antialiased;
+    overflow: hidden;
+  }

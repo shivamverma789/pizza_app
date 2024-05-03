@@ -26,7 +26,7 @@ app.use((req, res, next) => {
 
 //database connection
 
-  mongoose.connect("mongodb://127.0.0.1:27017/pizza");
+  mongoose.connect(process.env.MONGO_CONNECTION_URL);
   
   // Connection event handlers
   const connection = mongoose.connection;
@@ -44,8 +44,8 @@ app.use((req, res, next) => {
 app.use(session({
   secret: process.env.COOKIE_SECRET,
   resave: false,
-  saveUninitialized: false,
-  store: mongoStore.create({ mongoUrl: 'mongodb://127.0.0.1:27017/pizza' }),
+  saveUninitialized: false, 
+  store: mongoStore.create({ mongoUrl: process.env.MONGO_CONNECTION_URL }),
   cookie: { maxAge: 1000 *60 *60 *24}   // 24 hours
 }))
 
@@ -66,6 +66,9 @@ app.set ("view engine", "ejs");
 
 
 require("./routes/web")(app);
+app.use((req,res)=>{
+  res.status(404).render("errors/404")
+})
 
 
 

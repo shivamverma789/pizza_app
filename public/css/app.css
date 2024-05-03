@@ -99,7 +99,8 @@
 }
 
 .noty_bar {
-  -webkit-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;  
+  backface-visibility: hidden;
   transform: translate(0, 0) scale(1, 1);
   -webkit-font-smoothing: subpixel-antialiased;
   overflow: hidden;
@@ -420,4 +421,26 @@ section.status {
   float: right;
   font-size: 14px;
   margin-top: 1px;
+}
+
+@media (max-width: 1060px) {
+  .container {
+    max-width: 90%;
+  }
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+@media (max-width: 768px) {
+  .status-box ul li span:before {
+    font-size: 34px;
+  }
+}
+.noty_bar {
+  backface-visibility: hidden;
+  transform: translate(0, 0) scale(1, 1);
+  -webkit-font-smoothing: subpixel-antialiased;
+  overflow: hidden;
 }
