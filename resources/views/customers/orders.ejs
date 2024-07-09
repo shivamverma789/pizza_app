@@ -7,7 +7,7 @@
             <p><%= messages.success %></p>
         </div>
         <table class="w-full table-auto bg-white">
-            <thead>
+            <thead> 
                 <tr>
                     <th class="px-4 py-2 text-left">Orders</th>
                     <th class="px-4 py-2 text-left">Phone No.</th>
@@ -38,6 +38,12 @@
                 <% } else {%>
                     <tr>
                         <td class="p-4"><span>No Orders found!</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                    <a href="/" class="inline-block cursor-ponter mx-1/2 btn-primary px-6 py-2 rounded-full text-white font-bold mt-6">Order Now </a>
+
+                        </td>
                     </tr>
                  <% } %>    
             </tbody>
